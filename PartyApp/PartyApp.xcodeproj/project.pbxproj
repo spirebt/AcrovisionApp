@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B82BCE9157E31DB00FBBDF0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B82BCE8157E31DB00FBBDF0 /* Default.png */; };
+		1B82BCEE157E321A00FBBDF0 /* 920.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B82BCEA157E321A00FBBDF0 /* 920.png */; };
+		1B82BCEF157E321A00FBBDF0 /* 980.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B82BCEB157E321A00FBBDF0 /* 980.png */; };
+		1B82BCF0157E321A00FBBDF0 /* 940.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B82BCEC157E321A00FBBDF0 /* 940.png */; };
+		1B82BCF1157E321A00FBBDF0 /* 960.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B82BCED157E321A00FBBDF0 /* 960.png */; };
 		1BFD9433157E02CE00DCA36D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFD9432157E02CE00DCA36D /* UIKit.framework */; };
 		1BFD9435157E02CE00DCA36D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFD9434157E02CE00DCA36D /* Foundation.framework */; };
 		1BFD9437157E02CE00DCA36D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFD9436157E02CE00DCA36D /* CoreGraphics.framework */; };
@@ -26,6 +31,8 @@
 		1BFD9461157E02DD00DCA36D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFD9434157E02CE00DCA36D /* Foundation.framework */; };
 		1BFD9469157E02DF00DCA36D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BFD9467157E02DF00DCA36D /* InfoPlist.strings */; };
 		1BFD946C157E02E000DCA36D /* PartyAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFD946B157E02E000DCA36D /* PartyAppTests.m */; };
+		1BFD9478157E0B3900DCA36D /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFD9476157E0B3900DCA36D /* LogInViewController.m */; };
+		1BFD9479157E0B3900DCA36D /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BFD9477157E0B3900DCA36D /* LogInViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +46,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B82BCE8157E31DB00FBBDF0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		1B82BCEA157E321A00FBBDF0 /* 920.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 920.png; sourceTree = "<group>"; };
+		1B82BCEB157E321A00FBBDF0 /* 980.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 980.png; sourceTree = "<group>"; };
+		1B82BCEC157E321A00FBBDF0 /* 940.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 940.png; sourceTree = "<group>"; };
+		1B82BCED157E321A00FBBDF0 /* 960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 960.png; sourceTree = "<group>"; };
 		1BFD942E157E02CE00DCA36D /* PartyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PartyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BFD9432157E02CE00DCA36D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1BFD9434157E02CE00DCA36D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -65,6 +77,9 @@
 		1BFD9468157E02DF00DCA36D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1BFD946A157E02DF00DCA36D /* PartyAppTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartyAppTests.h; sourceTree = "<group>"; };
 		1BFD946B157E02E000DCA36D /* PartyAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PartyAppTests.m; sourceTree = "<group>"; };
+		1BFD9475157E0B3900DCA36D /* LogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogInViewController.h; sourceTree = "<group>"; };
+		1BFD9476157E0B3900DCA36D /* LogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogInViewController.m; sourceTree = "<group>"; };
+		1BFD9477157E0B3900DCA36D /* LogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +141,8 @@
 			children = (
 				1BFD9441157E02D100DCA36D /* AppDelegate.h */,
 				1BFD9442157E02D200DCA36D /* AppDelegate.m */,
+				1BFD9475157E0B3900DCA36D /* LogInViewController.h */,
+				1BFD9476157E0B3900DCA36D /* LogInViewController.m */,
 				1BFD9444157E02D200DCA36D /* FirstViewController.h */,
 				1BFD9445157E02D300DCA36D /* FirstViewController.m */,
 				1BFD9447157E02D400DCA36D /* first.png */,
@@ -134,6 +151,12 @@
 				1BFD944C157E02D700DCA36D /* SecondViewController.m */,
 				1BFD944E157E02D800DCA36D /* second.png */,
 				1BFD9450157E02DA00DCA36D /* second@2x.png */,
+				1B82BCE8157E31DB00FBBDF0 /* Default.png */,
+				1B82BCEA157E321A00FBBDF0 /* 920.png */,
+				1B82BCEC157E321A00FBBDF0 /* 940.png */,
+				1B82BCED157E321A00FBBDF0 /* 960.png */,
+				1B82BCEB157E321A00FBBDF0 /* 980.png */,
+				1BFD9477157E0B3900DCA36D /* LogInViewController.xib */,
 				1BFD9452157E02DC00DCA36D /* FirstViewController.xib */,
 				1BFD9455157E02DD00DCA36D /* SecondViewController.xib */,
 				1BFD9439157E02D000DCA36D /* Supporting Files */,
@@ -248,6 +271,12 @@
 				1BFD9451157E02DA00DCA36D /* second@2x.png in Resources */,
 				1BFD9454157E02DC00DCA36D /* FirstViewController.xib in Resources */,
 				1BFD9457157E02DD00DCA36D /* SecondViewController.xib in Resources */,
+				1BFD9479157E0B3900DCA36D /* LogInViewController.xib in Resources */,
+				1B82BCE9157E31DB00FBBDF0 /* Default.png in Resources */,
+				1B82BCEE157E321A00FBBDF0 /* 920.png in Resources */,
+				1B82BCEF157E321A00FBBDF0 /* 980.png in Resources */,
+				1B82BCF0157E321A00FBBDF0 /* 940.png in Resources */,
+				1B82BCF1157E321A00FBBDF0 /* 960.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +315,7 @@
 				1BFD9443157E02D200DCA36D /* AppDelegate.m in Sources */,
 				1BFD9446157E02D300DCA36D /* FirstViewController.m in Sources */,
 				1BFD944D157E02D700DCA36D /* SecondViewController.m in Sources */,
+				1BFD9478157E0B3900DCA36D /* LogInViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +493,7 @@
 				1BFD9471157E02E000DCA36D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1BFD9472157E02E000DCA36D /* Build configuration list for PBXNativeTarget "PartyAppTests" */ = {
 			isa = XCConfigurationList;
@@ -471,6 +502,7 @@
 				1BFD9474157E02E000DCA36D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

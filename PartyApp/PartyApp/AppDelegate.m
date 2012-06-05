@@ -12,24 +12,45 @@
 
 #import "SecondViewController.h"
 
+#import "LogInViewController.h"
+
 @implementation AppDelegate
 
 @synthesize window = _window;
+
 @synthesize tabBarController = _tabBarController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    sleep(5);
     // Override point for customization after application launch.
     UIViewController *viewController1 = [[FirstViewController alloc] initWithNibName:@"FirstViewController" bundle:nil];
     UIViewController *viewController2 = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+    
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
     self.window.rootViewController = self.tabBarController;
+    
+    LogInViewController *logViewController = [[LogInViewController alloc] initWithNibName:@"LogInViewController" bundle:nil];
+    [self.window addSubview:_tabBarController.view];
+    
+    [self.tabBarController presentModalViewController:logViewController animated:YES];
+    //This wont work
+    //[self.tabBarController presentModalViewController:logViewController animated:NO];
+    
     [self.window makeKeyAndVisible];
     return YES;
+    
 }
 
+-(void)loginDone{
+    
+    NSLog(@"back to the app delegate");
+    [self.tabBarController dismissModalViewControllerAnimated:YES];
+    
+    
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
