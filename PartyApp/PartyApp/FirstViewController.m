@@ -7,7 +7,8 @@
 //
 
 #import "FirstViewController.h"
-
+#import "LogInViewController.h"
+#import "AppDelegate.h"
 @interface FirstViewController ()
 
 @end
@@ -27,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"eve sme %@",logInController.jsonData);
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -35,7 +37,9 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
+-(void)viewWillAppear:(BOOL)animated{
 
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);

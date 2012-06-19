@@ -14,5 +14,5 @@
 
 @property (strong, nonatomic) UITabBarController *tabBarController;
 
--(void)loginDone;
+//-(void)loginDone;
 @end

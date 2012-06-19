@@ -8,10 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
-@interface LogInViewController : UIViewController
+#import "SignInViewController.h"
+#import "ForgotPassViewController.h"
+#import "SBJson.h"
+@interface LogInViewController : UIViewController <UITextFieldDelegate>
+
 {
     AppDelegate *appDelegate;
-    IBOutlet UIButton *loginButton;
+    SignInViewController *signIn;
+    ForgotPassViewController *recoverPass;
+    IBOutlet UIButton *loginButton;    
+    SBJsonParser *parser;
 }
--(IBAction)tryToLogIn;
+@property (strong, nonatomic) NSMutableArray *jsonData;
+@property (nonatomic, retain) IBOutlet UILabel *logInAlertLabel;
+@property (nonatomic, retain) IBOutlet UITextField *user;
+@property (nonatomic, retain) IBOutlet UITextField *pass;
+-(IBAction)sendPost;
+-(IBAction)signInView;
+-(IBAction)recoverPass;
 @end

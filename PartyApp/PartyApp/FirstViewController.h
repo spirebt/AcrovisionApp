@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class LogInViewController,AppDelegate;
 @interface FirstViewController : UIViewController
+{
+    LogInViewController *logInController;
+    AppDelegate *appDelegate;
 
+}
 @end
