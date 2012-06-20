@@ -11,6 +11,7 @@
 #import "SBJson.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
+#import "EditProfileViewController.h"
 @interface SignInViewController ()
 
 
@@ -132,6 +133,7 @@
         */
         [alertLabel setHidden:YES];
         [mainAlertLabel setHidden:YES];
+       
 
         [self sendPost:@"http://spireapp.lazarevski-zoran.com/index.php?action=saveUser" gender:genderSelected];
     }
@@ -157,11 +159,11 @@
     [request setPostValue:question.text forKey:@"Quest"];
     [request setPostValue:answer.text forKey:@"Answ"];
     [request setPostValue:@"Token" forKey:@"Token"];
-    [request setPostValue:@"" forKey:@"Bio"];
-    [request setPostValue:@"" forKey:@"Image"];
+    [request setPostValue:@"No Bio..." forKey:@"Bio"];
+    [request setPostValue:@"No data..." forKey:@"Image"];
     [request setPostValue:@"0" forKey:@"id"];
 
-    //[request setFile:@"/Users/spire/Desktop/sign-nobaby.png" forKey:@"Image"];
+    //[request setFile:@"/Users/spire/Desktop/theeyeofrawsr2raziel.jpg" forKey:@"Image"];
     [request setDelegate:self];
     //[request setUploadProgressDelegate:myProgressIndicator];
     [request startAsynchronous];
@@ -177,9 +179,10 @@
     
     SBJsonParser *parser = [[SBJsonParser alloc] init];
     jsonData = [parser objectWithString:responseString error:nil];
-    NSLog(@"%@",jsonData);
+
+    NSLog(@"the data: %@",jsonData);
     if ([jsonData count]!=0) {
-        NSArray *userDetails = (NSArray *)[jsonData valueForKey:@"user"]; 
+        //NSArray *userDetails = (NSArray *)[jsonData valueForKey:@"User"]; 
         NSString *errorInfo = (NSString *)[jsonData valueForKey:@"error"];
         NSString *successInfo = (NSString *)[jsonData valueForKey:@"success"];
     
@@ -193,9 +196,14 @@
             mainAlertLabel.text = @"This user can't be created - please contact our support";
         
         }else if(([errorInfo intValue] == 0) && ([successInfo intValue]==1)){
-            //[self dismissModalViewControllerAnimated:YES];
-            NSLog(@"we won");
+            NSLog(@"we are here");
+            editViewController = [[EditProfileViewController alloc]initWithNibName:@"EditProfileViewController" bundle:nil];
+            editViewController.userDataJSON = [jsonData valueForKey:@"user"];
+            
+            [editViewController setTitle:@"Edit Profile"];
+            [self.navigationController pushViewController:editViewController animated:YES];
 
+            //[self dismissModalViewControllerAnimated:YES];
         }
     }else{
         NSLog(@"No JSON value");

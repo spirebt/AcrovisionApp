@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class TPKeyboardAvoidingScrollView,ASIFormDataRequest; ;
+@class TPKeyboardAvoidingScrollView,ASIFormDataRequest, EditProfileViewController;
 @interface SignInViewController : UIViewController  <UITextFieldDelegate>{
     int segControl;
-    
+    EditProfileViewController *editViewController;
     NSString *convertToStringData;
     NSString *dataString;
 }

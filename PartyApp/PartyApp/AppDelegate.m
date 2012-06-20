@@ -9,9 +9,9 @@
 #import "AppDelegate.h"
 
 #import "FirstViewController.h"
-
 #import "SecondViewController.h"
-
+#import "PhotoViewController.h"
+#import "AccountViewController.h"
 #import "LogInViewController.h"
 
 #import "SBJson.h"
@@ -27,11 +27,21 @@
     //sleep(5);
     // Override point for customization after application launch.
     UIViewController *viewController1 = [[FirstViewController alloc] initWithNibName:@"FirstViewController" bundle:nil];
+    
     UIViewController *viewController2 = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+    
+    UIViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+    UINavigationController *photoNavController = [[UINavigationController alloc] initWithRootViewController:photoViewController];
+    
+    UIViewController *accountViewController = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil];
+    UINavigationController *accountNavController = [[UINavigationController alloc] initWithRootViewController:accountViewController];
+    
     LogInViewController *logViewController = [[LogInViewController alloc] initWithNibName:@"LogInViewController" bundle:nil];
     UINavigationController *navController1 = [[UINavigationController alloc] initWithRootViewController:logViewController];
+    
+    
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2,photoNavController,accountNavController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
    

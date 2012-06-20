@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class ASIFormDataRequest;
 @interface ForgotPassViewController : UIViewController <UITextFieldDelegate>
 {
     UIButton *submitUser;
@@ -17,9 +17,9 @@
     IBOutlet UIButton *resignKeyboardButton;
     UITextField *userName;
     UITextField *answer;    
-    
+    NSMutableArray *forgotPassJson;
 }
-@property (strong, nonatomic) NSMutableArray *jsonData;
+@property (strong, nonatomic) NSMutableArray *forgotPassJson;
 -(IBAction)resignKeyboard;
 -(void)sendPost;
 @end

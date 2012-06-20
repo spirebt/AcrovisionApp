@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B0ADEB11591F04E0081D5DD /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0ADEAF1591F04D0081D5DD /* PhotoViewController.m */; };
+		1B0ADEB21591F04E0081D5DD /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0ADEB01591F04E0081D5DD /* PhotoViewController.xib */; };
+		1B0ADEB61591F0ED0081D5DD /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0ADEB41591F0EC0081D5DD /* AccountViewController.m */; };
+		1B0ADEB71591F0ED0081D5DD /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B0ADEB51591F0EC0081D5DD /* AccountViewController.xib */; };
 		1B325BD3158A1D4800800B08 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B325BD2158A1D4800800B08 /* MobileCoreServices.framework */; };
 		1B325BD5158A1D8A00800B08 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B325BD4158A1D8A00800B08 /* libz.dylib */; };
 		1B325BF0158A1DFA00800B08 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B325BE1158A1DFA00800B08 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -41,8 +45,9 @@
 		1B555C0C1589E875008ECCAD /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B555BFF1589E875008ECCAD /* SBJsonUTF8Stream.m */; };
 		1B555C0D1589E875008ECCAD /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B555C011589E875008ECCAD /* SBJsonWriter.m */; };
 		1B555C39158A13B5008ECCAD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B555C38158A13B5008ECCAD /* SystemConfiguration.framework */; };
-		1B826802158F5CDD001636B2 /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B826800158F5CDC001636B2 /* EditProfileViewController.m */; };
-		1B826803158F5CDD001636B2 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B826801158F5CDD001636B2 /* EditProfileViewController.xib */; };
+		1B8D82A41590D4B50038EC7C /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B8D82A21590D4B50038EC7C /* EditProfileViewController.m */; };
+		1B8D82A51590D4B50038EC7C /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B8D82A31590D4B50038EC7C /* EditProfileViewController.xib */; };
+		1B99308015918D530077CAB8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B99307F15918D530077CAB8 /* AudioToolbox.framework */; };
 		1BD829AA15888B4900A2195B /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD829A815888B4900A2195B /* SignInViewController.m */; };
 		1BD829AB15888B4900A2195B /* SignInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BD829A915888B4900A2195B /* SignInViewController.xib */; };
 		1BD829B015888C1F00A2195B /* ForgotPassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BD829AE15888C1F00A2195B /* ForgotPassViewController.m */; };
@@ -83,6 +88,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B0ADEAE1591F04D0081D5DD /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
+		1B0ADEAF1591F04D0081D5DD /* PhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
+		1B0ADEB01591F04E0081D5DD /* PhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewController.xib; sourceTree = "<group>"; };
+		1B0ADEB31591F0EC0081D5DD /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		1B0ADEB41591F0EC0081D5DD /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
+		1B0ADEB51591F0EC0081D5DD /* AccountViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		1B325BD2158A1D4800800B08 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		1B325BD4158A1D8A00800B08 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1B325BDC158A1DFA00800B08 /* ASIHTTPRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestConfig.h; sourceTree = "<group>"; };
@@ -134,9 +145,10 @@
 		1B555C001589E875008ECCAD /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		1B555C011589E875008ECCAD /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		1B555C38158A13B5008ECCAD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1B8267FF158F5CDC001636B2 /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
-		1B826800158F5CDC001636B2 /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
-		1B826801158F5CDD001636B2 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
+		1B8D82A11590D4B50038EC7C /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
+		1B8D82A21590D4B50038EC7C /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
+		1B8D82A31590D4B50038EC7C /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
+		1B99307F15918D530077CAB8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		1BD829A715888B4900A2195B /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		1BD829A815888B4900A2195B /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
 		1BD829A915888B4900A2195B /* SignInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignInViewController.xib; sourceTree = "<group>"; };
@@ -183,6 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B99308015918D530077CAB8 /* AudioToolbox.framework in Frameworks */,
 				1B325C01158A1E3F00800B08 /* CFNetwork.framework in Frameworks */,
 				1B325BD5158A1D8A00800B08 /* libz.dylib in Frameworks */,
 				1BFD9437157E02CE00DCA36D /* CoreGraphics.framework in Frameworks */,
@@ -206,6 +219,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B0ADEB81591F1310081D5DD /* TabBarClasses */ = {
+			isa = PBXGroup;
+			children = (
+				1BFD9444157E02D200DCA36D /* FirstViewController.h */,
+				1BFD9445157E02D300DCA36D /* FirstViewController.m */,
+				1BFD9452157E02DC00DCA36D /* FirstViewController.xib */,
+				1BFD9447157E02D400DCA36D /* first.png */,
+				1BFD9449157E02D600DCA36D /* first@2x.png */,
+				1BFD944B157E02D600DCA36D /* SecondViewController.h */,
+				1BFD944C157E02D700DCA36D /* SecondViewController.m */,
+				1BFD9455157E02DD00DCA36D /* SecondViewController.xib */,
+				1BFD944E157E02D800DCA36D /* second.png */,
+				1BFD9450157E02DA00DCA36D /* second@2x.png */,
+				1B0ADEAE1591F04D0081D5DD /* PhotoViewController.h */,
+				1B0ADEAF1591F04D0081D5DD /* PhotoViewController.m */,
+				1B0ADEB01591F04E0081D5DD /* PhotoViewController.xib */,
+				1B0ADEB31591F0EC0081D5DD /* AccountViewController.h */,
+				1B0ADEB41591F0EC0081D5DD /* AccountViewController.m */,
+				1B0ADEB51591F0EC0081D5DD /* AccountViewController.xib */,
+			);
+			name = TabBarClasses;
+			sourceTree = "<group>";
+		};
 		1B555BE81589E864008ECCAD /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +313,7 @@
 		1BFD9423157E02CD00DCA36D = {
 			isa = PBXGroup;
 			children = (
+				1B99307F15918D530077CAB8 /* AudioToolbox.framework */,
 				1BFD9438157E02CE00DCA36D /* PartyApp */,
 				1BFD9464157E02DD00DCA36D /* PartyAppTests */,
 				1BFD9431157E02CE00DCA36D /* Frameworks */,
@@ -314,6 +351,7 @@
 				1B555C32158A1355008ECCAD /* Reachability */,
 				1B555C15158A1062008ECCAD /* ASIHTTP */,
 				1B555BE81589E864008ECCAD /* JSON */,
+				1B0ADEB81591F1310081D5DD /* TabBarClasses */,
 				1BD829C01588AE7400A2195B /* TPKeyboardAvoidingScrollView.h */,
 				1BD829C11588AE7400A2195B /* TPKeyboardAvoidingScrollView.m */,
 				1BFD9441157E02D100DCA36D /* AppDelegate.h */,
@@ -326,22 +364,12 @@
 				1BD829A715888B4900A2195B /* SignInViewController.h */,
 				1BD829A815888B4900A2195B /* SignInViewController.m */,
 				1BD829A915888B4900A2195B /* SignInViewController.xib */,
+				1B8D82A11590D4B50038EC7C /* EditProfileViewController.h */,
+				1B8D82A21590D4B50038EC7C /* EditProfileViewController.m */,
+				1B8D82A31590D4B50038EC7C /* EditProfileViewController.xib */,
 				1BD829AD15888C1F00A2195B /* ForgotPassViewController.h */,
 				1BD829AE15888C1F00A2195B /* ForgotPassViewController.m */,
 				1BD829AF15888C1F00A2195B /* ForgotPassViewController.xib */,
-				1B8267FF158F5CDC001636B2 /* EditProfileViewController.h */,
-				1B826800158F5CDC001636B2 /* EditProfileViewController.m */,
-				1B826801158F5CDD001636B2 /* EditProfileViewController.xib */,
-				1BFD9444157E02D200DCA36D /* FirstViewController.h */,
-				1BFD9445157E02D300DCA36D /* FirstViewController.m */,
-				1BFD9452157E02DC00DCA36D /* FirstViewController.xib */,
-				1BFD9447157E02D400DCA36D /* first.png */,
-				1BFD9449157E02D600DCA36D /* first@2x.png */,
-				1BFD944B157E02D600DCA36D /* SecondViewController.h */,
-				1BFD944C157E02D700DCA36D /* SecondViewController.m */,
-				1BFD9455157E02DD00DCA36D /* SecondViewController.xib */,
-				1BFD944E157E02D800DCA36D /* second.png */,
-				1BFD9450157E02DA00DCA36D /* second@2x.png */,
 				1BFD9439157E02D000DCA36D /* Supporting Files */,
 			);
 			path = PartyApp;
@@ -457,7 +485,9 @@
 				1BFD9479157E0B3900DCA36D /* LogInViewController.xib in Resources */,
 				1BD829AB15888B4900A2195B /* SignInViewController.xib in Resources */,
 				1BD829B115888C1F00A2195B /* ForgotPassViewController.xib in Resources */,
-				1B826803158F5CDD001636B2 /* EditProfileViewController.xib in Resources */,
+				1B8D82A51590D4B50038EC7C /* EditProfileViewController.xib in Resources */,
+				1B0ADEB21591F04E0081D5DD /* PhotoViewController.xib in Resources */,
+				1B0ADEB71591F0ED0081D5DD /* AccountViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,7 +552,9 @@
 				1B325BFC158A1DFA00800B08 /* ASIDataDecompressor.m in Sources */,
 				1B325BFE158A1DFA00800B08 /* ASIDataCompressor.m in Sources */,
 				1B325C04158A1F2100800B08 /* Reachability.m in Sources */,
-				1B826802158F5CDD001636B2 /* EditProfileViewController.m in Sources */,
+				1B8D82A41590D4B50038EC7C /* EditProfileViewController.m in Sources */,
+				1B0ADEB11591F04E0081D5DD /* PhotoViewController.m in Sources */,
+				1B0ADEB61591F0ED0081D5DD /* AccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

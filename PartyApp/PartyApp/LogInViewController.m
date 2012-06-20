@@ -8,7 +8,6 @@
 
 #import "LogInViewController.h"
 #import "ASIFormDataRequest.h"
-//#import "SBJson.h"
 @interface LogInViewController ()
 
 @end
@@ -66,13 +65,13 @@
         // Use when fetching text data
         NSString *responseString = [request responseString];
         
-        
         jsonData = [parser objectWithString:responseString error:nil];
         NSLog(@"%@",jsonData);
         
         NSString *errorInfo = (NSString *)[jsonData valueForKey:@"error"];
         NSString *successInfo = (NSString *)[jsonData valueForKey:@"success"];
         NSString *attempts = (NSString *)[jsonData valueForKey:@"attempts"];
+    
     if ([attempts intValue]<3) {
         if ([errorInfo intValue] == 1) {
             logInAlertLabel.text = @"Connection problems, please try later";
@@ -86,26 +85,31 @@
             logInAlertLabel.text = @"Username and password don't match";
             
         }else if ([errorInfo intValue] == 7) {
-            logInAlertLabel.text = @"Username does not exist";
+            if ([user.text length] == 0) {
+                logInAlertLabel.text = @"Please provide user and password";
+
+            }else {
+                logInAlertLabel.text = @"Username does not exist";
+
+            }
             
         }else if(([errorInfo intValue] == 0) && ([successInfo intValue]==1)){
             //[self dismissModalViewControllerAnimated:YES];
-            NSLog(@"we won");
             if ([jsonData count]!= 0) {
+
                 //[appDelegate loginDone];
                 [appDelegate.tabBarController dismissModalViewControllerAnimated:YES];
 
             }
             
         }
-    }else if ([attempts intValue] == 3){
+    }else if ([attempts intValue] == 2){
         NSLog(@"proba 3 pati");
         [self recoverPass];
     }
-
         // Use when fetching binary data
         // NSData *responseData = [request responseData];
-    }
+}
 
 //NSURLConnection delegate method
 
