@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 
-#import "FirstViewController.h"
-#import "SecondViewController.h"
+#import "NotificationViewController.h"
+#import "EventsViewController.h"
 #import "PhotoViewController.h"
 #import "AccountViewController.h"
 #import "LogInViewController.h"
@@ -26,22 +26,32 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     //sleep(5);
     // Override point for customization after application launch.
-    UIViewController *viewController1 = [[FirstViewController alloc] initWithNibName:@"FirstViewController" bundle:nil];
-    
-    UIViewController *viewController2 = [[SecondViewController alloc] initWithNibName:@"SecondViewController" bundle:nil];
+    UIViewController *viewController1 = [[NotificationViewController alloc] initWithNibName:@"NotificationViewController" bundle:nil];
+    UINavigationController *notificationsNavController = [[UINavigationController alloc] initWithRootViewController:viewController1];
+
+    UIViewController *viewController2 = [[EventsViewController alloc] initWithNibName:@"EventsViewController" bundle:nil];
+    UINavigationController *eventsNavController = [[UINavigationController alloc] initWithRootViewController:viewController2];
+    eventsNavController.title = NSLocalizedString(@"Events", @"Events");
+    eventsNavController.tabBarItem.image = [UIImage imageNamed:@"second"];
     
     UIViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
     UINavigationController *photoNavController = [[UINavigationController alloc] initWithRootViewController:photoViewController];
+    photoNavController.title = NSLocalizedString(@"Photo", @"Photo");
+    photoNavController.tabBarItem.image = [UIImage imageNamed:@"first"];
+
     
     UIViewController *accountViewController = [[AccountViewController alloc] initWithNibName:@"AccountViewController" bundle:nil];
     UINavigationController *accountNavController = [[UINavigationController alloc] initWithRootViewController:accountViewController];
+    accountNavController.title = NSLocalizedString(@"Account", @"Account");
+    accountNavController.tabBarItem.image = [UIImage imageNamed:@"second"];
     
     LogInViewController *logViewController = [[LogInViewController alloc] initWithNibName:@"LogInViewController" bundle:nil];
+    
     UINavigationController *navController1 = [[UINavigationController alloc] initWithRootViewController:logViewController];
     
     
     self.tabBarController = [[UITabBarController alloc] init];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:viewController1, viewController2,photoNavController,accountNavController, nil];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:notificationsNavController, eventsNavController,photoNavController,accountNavController, nil];
     self.window.rootViewController = self.tabBarController;
     [self.window makeKeyAndVisible];
    

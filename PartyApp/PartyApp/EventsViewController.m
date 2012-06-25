@@ -1,18 +1,18 @@
 //
-//  AccountViewController.m
+//  EventsViewController.m
 //  PartyApp
 //
-//  Created by Spire Jankulovski on 6/20/12.
+//  Created by Spire Jankulovski on 6/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AccountViewController.h"
-
-@interface AccountViewController ()
+#import "EventsViewController.h"
+#import "MyEventsViewController.h"
+@interface EventsViewController ()
 
 @end
 
-@implementation AccountViewController
+@implementation EventsViewController
 @synthesize contentsList;
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,9 +26,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Account"];
-    contentsList = [NSMutableArray arrayWithObjects:@"Personal Info",@"Friends",@"Share this App",@"Contact Us", nil];
+    [self setTitle:@"Events"];
 
+    contentsList = [NSMutableArray arrayWithObjects:@"New Events",@"Top Events",@"My Events", nil];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -61,7 +62,6 @@
     // Return the number of rows in the section.
     return [contentsList count];
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 60;
 }   
@@ -78,9 +78,12 @@
     
     // Configure the cell...
     [[cell textLabel]setText:[contentsList objectAtIndex:[indexPath row]]]; 
+    if ([indexPath row]==2) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+    }
     return cell;
 }
-
 
 /*
 // Override to support conditional editing of the table view.
@@ -126,12 +129,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if ([indexPath row]==2) {
+        MyEventsViewController *detailViewController = [[MyEventsViewController alloc] initWithNibName:@"MyEventsViewController" bundle:nil];
+        // ...
+        // Pass the selected object to the new view controller.
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
 }
 
 @end

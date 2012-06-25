@@ -7,7 +7,7 @@
 //
 
 #import "PhotoViewController.h"
-
+#import "SelectPhotoViewController.h"
 @interface PhotoViewController ()
 
 @end
@@ -18,7 +18,8 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        self.title = NSLocalizedString(@"Photo", @"Photo");
+        self.tabBarItem.image = [UIImage imageNamed:@"first"];
     }
     return self;
 }
@@ -26,7 +27,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    cellNamesArray = [NSArray arrayWithObjects:@"Upload From iPhone",@"Take a Photo",@"My Photos",@"My Friends", nil];
+    [self setTitle:@"Photo"];
+
+    cellNamesArray = [NSArray arrayWithObjects:@"Upload a Photo",@"My Photos",@"My Friends", nil];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -57,7 +60,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 4;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,7 +73,10 @@
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
     // Configure the cell...
-    [[cell textLabel]setText:@"WoW"];
+    [[cell textLabel]setText:[cellNamesArray objectAtIndex:[indexPath row]]];
+    if ([indexPath row] == 0) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     return cell;
 }
 
@@ -117,13 +123,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"%d",[indexPath row]);
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if ([indexPath row]==0) {
+        SelectPhotoViewController *selectPhotoViewController = [[SelectPhotoViewController alloc] initWithNibName:@"SelectPhotoViewController" bundle:nil];
+        // ...
+        // Pass the selected object to the new view controller.
+        [self.navigationController pushViewController:selectPhotoViewController animated:YES];
+
+    }
+         
 }
 
 @end

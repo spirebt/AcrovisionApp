@@ -66,12 +66,11 @@
         NSString *responseString = [request responseString];
         
         jsonData = [parser objectWithString:responseString error:nil];
-        NSLog(@"%@",jsonData);
         
         NSString *errorInfo = (NSString *)[jsonData valueForKey:@"error"];
         NSString *successInfo = (NSString *)[jsonData valueForKey:@"success"];
         NSString *attempts = (NSString *)[jsonData valueForKey:@"attempts"];
-    
+    NSLog(@"JSIN %@",jsonData);
     if ([attempts intValue]<3) {
         if ([errorInfo intValue] == 1) {
             logInAlertLabel.text = @"Connection problems, please try later";
@@ -95,15 +94,10 @@
             
         }else if(([errorInfo intValue] == 0) && ([successInfo intValue]==1)){
             //[self dismissModalViewControllerAnimated:YES];
-            if ([jsonData count]!= 0) {
-
                 //[appDelegate loginDone];
                 [appDelegate.tabBarController dismissModalViewControllerAnimated:YES];
-
-            }
-            
         }
-    }else if ([attempts intValue] == 2){
+    }else if ([attempts intValue] >3){
         NSLog(@"proba 3 pati");
         [self recoverPass];
     }

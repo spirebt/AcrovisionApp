@@ -48,6 +48,7 @@
         /*----------------------------------------*/
         questionLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 280, 25)];
         questionLabel.backgroundColor = [UIColor clearColor]; // [UIColor brownColor];
+        questionLabel.textColor = [UIColor blackColor];
         questionLabel.font = [UIFont fontWithName:@"Arial" size: 14.0];
         questionLabel.shadowColor = [UIColor grayColor];
         questionLabel.shadowOffset = CGSizeMake(1,1);
@@ -66,7 +67,7 @@
         answer.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
 
         submitAnswer = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [submitAnswer addTarget:self action:@selector(sendPost)  forControlEvents:UIControlEventTouchDown];
+        [submitAnswer addTarget:self action:@selector(checkAnswer)  forControlEvents:UIControlEventTouchDown];
         [submitAnswer setTitle:@"SubmitAnswer" forState:UIControlStateNormal];
         submitAnswer.frame = CGRectMake(40.0, 95, 240.0, 40.0);
         /*----------------------------------------*/
@@ -108,8 +109,8 @@
     NSURL *requestUrl = [NSURL URLWithString:@"http://spireapp.lazarevski-zoran.com/index.php?action=getQuestion"];
 
     ASIFormDataRequest *formatRequest = [ASIFormDataRequest requestWithURL:requestUrl];
-    [formatRequest setPostValue:@"1" forKey:@"getQuestion"];
-    [formatRequest setPostValue:userString forKey:@"user"];
+    [formatRequest setPostValue:@"1" forKey:@"get_question"];
+    [formatRequest setPostValue:userString forKey:@"User"];
     [formatRequest setDelegate:self];
     [formatRequest startAsynchronous];
    
@@ -127,7 +128,7 @@
     forgotPassJson = [parser objectWithString:responseString error:nil];
     
     
-    NSString *questionString = (NSString *)[forgotPassJson valueForKey:@"Quest"];
+    NSString *questionString = (NSString *)[forgotPassJson valueForKey:@"question"];
     
     [userName setHidden:YES];
     [submitUser setHidden:YES];
@@ -135,9 +136,9 @@
     
     if ([forgotPassJson count]!=0) {
         questionLabel.text = questionString;
-        [self.view addSubview:questionLabel];
         [self.view addSubview:answer];
         [self.view addSubview:submitAnswer];
+        [self.view addSubview:questionLabel];
 
         NSLog(@"JSON %@",forgotPassJson);
         [answer setHidden:NO];
@@ -159,28 +160,21 @@
     // NSData *responseData = [request responseData];
 }
 -(void)checkAnswer{
-    
-    NSString *answerString = (NSString *)[forgotPassJson valueForKey:@"Answ"];
+
+    NSString *answerString = (NSString *)[forgotPassJson valueForKey:@"answer"];
     NSString *answerTextIntoStr = [NSString stringWithFormat:@"%@",answer.text];
-    
-    
-    if ([forgotPassJson count]!=0) {
+    NSString *idString = [NSString stringWithFormat:@"%@",[forgotPassJson valueForKey:@"id"]];
         
         if ([answerTextIntoStr isEqualToString:answerString]) {
+
             EditProfileViewController *editProf = [[EditProfileViewController alloc]initWithNibName:@"EditProfileViewController" bundle:nil];
             [editProf setTitle:@"Edit Profile"];
+            editProf.idString = idString;
             [self.navigationController pushViewController:editProf animated:YES];
         }else {
             [infoLabel setHidden:NO];
             [infoLabel setText:@"Wrong answer, you have limited number of tries"];
         }
-    }else{
-        [infoLabel setHidden:NO];
-        
-        [infoLabel setText:@"You have a connection problem, try again later"];
-        
-    }
-    
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request

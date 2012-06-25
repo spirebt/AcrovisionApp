@@ -2,22 +2,28 @@
 //  EditProfileViewController.m
 //  PartyApp
 //
-//  Created by Spire Jankulovski on 6/19/12.
+//  Created by Spire Jankulovski on 6/25/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import "EditProfileViewController.h"
-#import <AudioToolbox/AudioServices.h>
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+#import "SBJson.h"
 @interface EditProfileViewController ()
 
 @end
 
 @implementation EditProfileViewController
 @synthesize userDataJSON;
+@synthesize idString;
+@synthesize jsonData;
 @synthesize contentsList;
-- (id)initWithStyle:(UITableViewStyle)style
+@synthesize scrollView;
+@synthesize imageView;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
@@ -27,57 +33,332 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Edit Profile";
+    [super viewDidLoad];
     self.navigationItem.hidesBackButton = TRUE; 
-    NSString *bioStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Bio"]];
-    NSString *fNameStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"firstN"]];
-    NSString *lNameStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"lastN"]];
-    NSString *DoBStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"DoB"]];
-    NSString *genderStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Gender"]];
-    NSString *emailStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Email"]];
-    NSString *questStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Quest"]];
-    NSString *answStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Answ"]];
-   
-    //[jsonData valueForKey:@"error"]
-    NSArray *firstSection = [NSArray arrayWithObjects: nil];
     
+    if (idString) {
+        NSString *urlString = [NSString stringWithFormat:@"http://spireapp.lazarevski-zoran.com/index.php?action=getUserData&id=%@",idString];
+        NSURL *url = [NSURL URLWithString:urlString];
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+        [request setDelegate:self];
+        [request startAsynchronous];
+        
+    }else {
+        
+        self.title = @"Edit Profile";
+        bioStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Bio"]];
+        fNameStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"firstN"]];
+        lNameStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"lastN"]];
+        DoBStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"DoB"]];
+        genderStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Gender"]];
+        emailStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Email"]];
+        questStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Quest"]];
+        answStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Answ"]];
+        passString = [NSString stringWithFormat:[userDataJSON valueForKey:@"Pass"]];
+        [self drawView];     
+    }
+
+
+
+    // Do any additional setup after loading the view from its nib.
+}
+-(void)drawView{
+    scrollView.contentSize = CGSizeMake(320, 915);
+	[scrollView scrollRectToVisible:CGRectMake(0, 0, 320, 416) animated:NO];
     
-    NSArray *secondSection = [NSArray arrayWithObjects:fNameStr,lNameStr,DoBStr,genderStr, nil];
-    
-    
-    NSArray *thirdSection = [NSArray arrayWithObjects:emailStr,questStr,answStr,nil];
-	
-    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:firstSection, secondSection, thirdSection, nil];
-    [self setContentsList:array];
-     array = nil;
-    
-    imgv = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 240, 231)]; 
-    UIButton *sampleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sampleButton setFrame:CGRectMake(10,5,150,95)];
+    sampleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [sampleButton setFrame:CGRectMake(10,10,150,150)];
     [sampleButton setTitle:@"Tap to add image" forState:UIControlStateNormal];
-    [sampleButton setBackgroundImage:[[UIImage imageNamed:@"redButton.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:0.0] forState:UIControlStateNormal];
     [sampleButton setBackgroundColor:[UIColor brownColor]];
     [sampleButton addTarget:self action:@selector(displayImageGallery) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:sampleButton];
+    [scrollView addSubview:sampleButton];
+    
+    bioTextView = [[UITextView alloc]initWithFrame:CGRectMake(170, 10, 150, 150)];
+    [bioTextView setText:bioStr];
+    [scrollView addSubview:bioTextView];
+    
+    nameTextField = [[UITextField alloc]initWithFrame:CGRectMake(10, 170.0, 300, 30)];
+    nameTextField.borderStyle = UITextBorderStyleRoundedRect;
+    nameTextField.text = fNameStr;
+    [nameTextField setDelegate:self];		
+    [nameTextField addTarget:self action:@selector(textFieldDone:) 
+            forControlEvents:UIControlEventEditingDidEndOnExit];
+    [scrollView addSubview:nameTextField];
+    
+    lNameTextField = [[UITextField alloc]initWithFrame:CGRectMake(10, 210, 300, 30)];
+    lNameTextField.borderStyle = UITextBorderStyleRoundedRect;
+    lNameTextField.text = lNameStr;
+    [lNameTextField setDelegate:self];		
+    [lNameTextField addTarget:self action:@selector(textFieldDone:) 
+            forControlEvents:UIControlEventEditingDidEndOnExit];
+    [scrollView addSubview:lNameTextField];
+    
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+	NSArray *DobArray = [[NSArray alloc] initWithArray:[DoBStr componentsSeparatedByString:@"-"]];
+
+    dayTextField = [[UITextField alloc]initWithFrame:CGRectMake(10,250, 46, 30)];
+    dayTextField.borderStyle = UITextBorderStyleRoundedRect;
+    dayTextField.text = [DobArray objectAtIndex:2];
+    [dayTextField setDelegate:self];		
+    [dayTextField addTarget:self action:@selector(textFieldDone:) 
+             forControlEvents:UIControlEventEditingDidEndOnExit];
+    [dayTextField setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:dayTextField];
+    
+    monthTextField = [[UITextField alloc]initWithFrame:CGRectMake(60, 250, 46, 30)];
+    monthTextField.borderStyle = UITextBorderStyleRoundedRect;
+    monthTextField.text = [DobArray objectAtIndex:1];
+    [monthTextField setDelegate:self];		
+    [monthTextField addTarget:self action:@selector(textFieldDone:) 
+             forControlEvents:UIControlEventEditingDidEndOnExit];
+    [monthTextField setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:monthTextField];
+    
+    yearTextField = [[UITextField alloc]initWithFrame:CGRectMake(110, 250, 55, 30)];
+    yearTextField.borderStyle = UITextBorderStyleRoundedRect;
+    yearTextField.text = [DobArray objectAtIndex:0];
+    [yearTextField setDelegate:self];		
+    [yearTextField addTarget:self action:@selector(textFieldDone:) 
+             forControlEvents:UIControlEventEditingDidEndOnExit];
+    [yearTextField setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:yearTextField];
+    
+    NSArray *itemArray = [NSArray arrayWithObjects: @"M", @"F", nil];
+    segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
+    segmentedControl.frame = CGRectMake(175, 250, 135, 30);
+    segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
+    int i;
+    if ([genderStr isEqualToString:@"M"]) {
+        i=0;
+    }else if([genderStr isEqualToString:@"F"]){
+        i=1;
+    }
+    segmentedControl.selectedSegmentIndex = i;
+    [scrollView addSubview:segmentedControl];
+    
+    emailTextField = [[UITextField alloc]initWithFrame:CGRectMake(10, 290, 300, 30)];
+    emailTextField.borderStyle = UITextBorderStyleRoundedRect;
+    emailTextField.text = emailStr;
+    [emailTextField setDelegate:self];		
+    [emailTextField addTarget:self action:@selector(textFieldDone:) 
+             forControlEvents:UIControlEventEditingDidEndOnExit];
+    [emailTextField setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:monthTextField];
+
+    questionTextField = [[UITextField alloc]initWithFrame:CGRectMake(10, 330, 300, 30)];
+    questionTextField.borderStyle = UITextBorderStyleRoundedRect;
+    questionTextField.text = questStr;
+    [questionTextField setDelegate:self];		
+    [questionTextField addTarget:self action:@selector(textFieldDone:) 
+                forControlEvents:UIControlEventEditingDidEndOnExit];
+    [questionTextField setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:questionTextField];
+    
+    answerTextField = [[UITextField alloc]initWithFrame:CGRectMake(10, 370, 300, 30)];
+    answerTextField.borderStyle = UITextBorderStyleRoundedRect;
+    answerTextField.text = answStr;
+    [answerTextField setDelegate:self];		
+    [answerTextField addTarget:self action:@selector(textFieldDone:) 
+                forControlEvents:UIControlEventEditingDidEndOnExit];
+    [answerTextField setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:answerTextField];
+    
+    passTextField = [[UITextField alloc]initWithFrame:CGRectMake(10, 410, 300, 30)];
+    passTextField.borderStyle = UITextBorderStyleRoundedRect;
+    passTextField.text = passString;
+    [passTextField setDelegate:self];		
+    [passTextField addTarget:self action:@selector(textFieldDone:) 
+              forControlEvents:UIControlEventEditingDidEndOnExit];
+    [passTextField setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:passTextField];
+
+    passTextField2 = [[UITextField alloc]initWithFrame:CGRectMake(10, 450, 300, 30)];
+    passTextField2.borderStyle = UITextBorderStyleRoundedRect;
+    passTextField2.text = passString;
+    [passTextField2 setDelegate:self];		
+    [passTextField2 addTarget:self action:@selector(textFieldDone:) 
+            forControlEvents:UIControlEventEditingDidEndOnExit];
+    [passTextField2 setTextAlignment:UITextAlignmentCenter];
+    [scrollView addSubview:passTextField2];
 }
--(void) displayImageGallery
+- (void) useCamera
 {
-    imagePickerController = [[UIImagePickerController alloc]init];
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    imagePickerController.delegate = self;
-    [self presentModalViewController:imagePickerController animated:YES];
+    if ([UIImagePickerController isSourceTypeAvailable:
+         UIImagePickerControllerSourceTypeCamera])
+    {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.delegate = self;
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.mediaTypes = [NSArray arrayWithObjects: (NSString *) kUTTypeImage, nil];
+        imagePicker.allowsEditing = NO;
+        [self presentModalViewController:imagePicker animated:YES];
+        newMedia = YES;
+    }
 }
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (void) useCameraRoll
 {
-    imgv.image = [info valueForKey:@"UIImagePickerControllerOriginalImage"];
+    if ([UIImagePickerController isSourceTypeAvailable:
+         UIImagePickerControllerSourceTypeSavedPhotosAlbum])
+    {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.delegate = self;
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.mediaTypes = [NSArray arrayWithObjects: (NSString *) kUTTypeImage, nil];
+        imagePicker.allowsEditing = NO;
+        [self presentModalViewController:imagePicker animated:YES];
+        newMedia = NO;
+    }
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    [self dismissModalViewControllerAnimated:YES];
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext(); 
+        UIGraphicsEndImageContext();
+        imageData=UIImageJPEGRepresentation(newImage, 0.5); 
+        imageView.image = image;
+        [sampleButton setImage:image forState:UIControlStateNormal];
+        
+        if (newMedia)
+            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:finishedSavingWithError:contextInfo:), nil);
+        
+        UIButton *sendPhoto = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [sendPhoto setFrame:CGRectMake(120, 530, 81, 37)];
+        [sendPhoto setTitle:@"Upload" forState:UIControlStateNormal];
+        [sendPhoto addTarget:self action:@selector(addImageName)  forControlEvents:UIControlEventTouchDown];
+        [self.view addSubview:sendPhoto];
+    }
+    else if ([mediaType isEqualToString:(NSString *)kUTTypeMovie])
+    {
+		// Code here to support video if enabled
+	}
+}
+-(void)image:(UIImage *)image finishedSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if (error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Save failed" message: @"Failed to save image"\
+                                                       delegate: nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+}
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
     [self dismissModalViewControllerAnimated:YES];
 }
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex==0){
+        [self useCameraRoll];
+    }
+    else{
+        [self useCamera];
+    } 
+}
+-(void)displayImageGallery{
+    NSLog(@"alarm");
+    UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Choose Image From" message:@"" delegate:self cancelButtonTitle:@"Gallery" otherButtonTitles:@"Camera", nil];
+    
+    CGAffineTransform myTransform = CGAffineTransformMakeTranslation(0.0, 50.0);
+    [myAlertView setTransform:myTransform];
+    [myAlertView show];
+}
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    
+    //set up here for response!!!
+    jsonData = [parser objectWithString:responseString error:nil];
+    bioStr = [NSString stringWithFormat:[jsonData valueForKey:@"Bio"]];
+    fNameStr = [NSString stringWithFormat:[jsonData valueForKey:@"firstN"]];
+    lNameStr = [NSString stringWithFormat:[jsonData valueForKey:@"lastN"]];
+    DoBStr = [NSString stringWithFormat:[jsonData valueForKey:@"DoB"]];
+    genderStr = [NSString stringWithFormat:[jsonData valueForKey:@"Gender"]];
+    emailStr = [NSString stringWithFormat:[jsonData valueForKey:@"Email"]];
+    questStr = [NSString stringWithFormat:[jsonData valueForKey:@"Quest"]];
+    answStr = [NSString stringWithFormat:[jsonData valueForKey:@"Answ"]];
+    passString = [NSString stringWithFormat:[jsonData valueForKey:@"Pass"]];
+    // Use when fetching binary data
+    //NSData *responseData = [request responseData];
+    [self drawView];     
+
+}
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    NSError *error = [request error];
+    NSLog(@"%@",error);
+}
+-(void)sendData:(NSString *)imageName{
+    UILabel *warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 490, 280, 30)];
+    [warningLabel setHidden:YES];
+
+    if ([passTextField.text isEqualToString:passTextField2.text]) {
+
+    NSString *DoBString = [NSString stringWithFormat:@"%@.%@.%@",dayTextField.text,monthTextField.text,yearTextField.text];
+    NSString *incomingStr = @"http://spireapp.lazarevski-zoran.com/index.php?action=saveUser";
+    NSURL *url = [NSURL URLWithString:incomingStr];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    
+    [request setPostValue:@"1" forKey:@"save_user"];
+    [request setPostValue:nameTextField.text forKey:@"firstN"];
+    [request setPostValue:lNameTextField.text forKey:@"lastN"];
+    //[request setPostValue:pass.text forKey:@"Pass"];
+    [request setPostValue:DoBString forKey:@"DoB"];
+    //[request setPostValue:genderData forKey:@"Gender"];
+    [request setPostValue:emailTextField.text forKey:@"Email"];
+    [request setPostValue:questionTextField.text forKey:@"Quest"];
+    [request setPostValue:answerTextField.text forKey:@"Answ"];
+    [request setPostValue:@"Token" forKey:@"Token"];
+    [request setPostValue:bioTextView.text forKey:@"Bio"];
+    //[request setPostValue:@"No data..." forKey:@"Image"];
+    [request setPostValue:@"27" forKey:@"id"];
+    
+    //[request setFile:@"/Users/spire/Desktop/theeyeofrawsr2raziel.jpg" forKey:@"Image"];
+    [request setDelegate:self];
+    //[request setUploadProgressDelegate:myProgressIndicator];
+    [request startAsynchronous];
+        
+    //NSLog(@"Value: %f",[myProgressIndicator progress]);
+        
+    }else{
+        warningLabel.text = @"Passwords don't match";
+        [warningLabel setHidden:NO];
+    }
+     /*'save_user' = 1
+     'firstN' = 'First name here'
+     'lastN' = 'Last name'
+     'User' = 'Username here'
+     'Pass' = 'Password here'
+     'DoB' = 'Date of birth here (This format: 23.07.2012),
+     'Gender' = 'M or F'
+     'Email' = 'Email here'
+     'Quest' = 'Question here'
+     'Answ' = 'Answer here'
+     'Token' = 'Token here'
+     'Image' = 'Image here, can be empty'
+     'Bio' = 'Bio here, can be empty'
+     'id' = '0 if you are adding, 27 if you are updating user information'*/
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+	NSLog(@"textFieldDidBeginEditing");
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+	NSLog(@"textFieldDidEndEditing");
+    [textField resignFirstResponder];
+    //here we put submit to server updates
+}
+-(IBAction)textFieldDone:(id)sender{	
+	NSLog(@"textFieldDone");
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -88,143 +369,6 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-       NSInteger sections = [[self contentsList] count];
-
-    return sections;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    NSArray *sectionContents = [[self contentsList] objectAtIndex:section];
-    NSInteger rows = [sectionContents count];
-
-    return rows;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44;
-}   
-
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    // wrapperView - by default has the width of the table, you can change the height
-    // with the heightForHeaderInSection method
-    UIView *aView = [[UIView alloc] initWithFrame:CGRectZero];
-    if (section == 1) {
-        NSString *bioStr = [NSString stringWithFormat:[userDataJSON valueForKey:@"Bio"]];
-
-        // your real section view: a label, a uiview, whatever
-        CGRect myFrame; // create your own frame
-        myFrame.origin = CGPointMake(10, 0);
-        //myFrame.size = CGSizeMake(tableView.bounds.size.width-10,44); 
-        UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(160, 0.0, 150, 44.0)];
-        textField.borderStyle = UITextBorderStyleRoundedRect;
-        //yes strange, but otherwise the textfield won't show up :(
-        
-        textField.text = bioStr;
-        [textField setDelegate:self];		
-        [textField addTarget:self action:@selector(textFieldDone:) 
-            forControlEvents:UIControlEventEditingDidEndOnExit];
-        [aView addSubview:textField];
-        
-        return aView;
-    }
-    else return aView;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    NSArray *sectionContents = [[self contentsList] objectAtIndex:[indexPath section]];
-    NSString *contentForThisRow = [sectionContents objectAtIndex:[indexPath row]];
-
-
-    static NSString *CellIdentifier = @"Cell";
-    
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if (cell == nil)
-	{
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-	}
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(0.0, 0.0, 300.0, 44.0)];
-    textField.borderStyle = UITextBorderStyleRoundedRect;
-    //yes strange, but otherwise the textfield won't show up :(
-    cell.textLabel.backgroundColor = [UIColor blackColor];
-    
-    textField.text = contentForThisRow;
-    [textField setDelegate:self];		
-    [textField addTarget:self action:@selector(textFieldDone:) 
-        forControlEvents:UIControlEventEditingDidEndOnExit];
-    [cell.contentView addSubview:textField];
-
-	//[[cell textLabel] setText:contentForThisRow];
-    return cell;
-}
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-	NSLog(@"textFieldDidBeginEditing");
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-	NSLog(@"textFieldDidEndEditing");
-    //here we put submit to server updates
-}
-
--(IBAction)textFieldDone:(id)sender{	
-	NSLog(@"textFieldDone");
-}
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

@@ -1,18 +1,18 @@
 //
-//  AccountViewController.m
+//  MyEventsViewController.m
 //  PartyApp
 //
-//  Created by Spire Jankulovski on 6/20/12.
+//  Created by Spire Jankulovski on 6/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AccountViewController.h"
+#import "MyEventsViewController.h"
 
-@interface AccountViewController ()
+@interface MyEventsViewController ()
 
 @end
 
-@implementation AccountViewController
+@implementation MyEventsViewController
 @synthesize contentsList;
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,12 +26,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Account"];
-    contentsList = [NSMutableArray arrayWithObjects:@"Personal Info",@"Friends",@"Share this App",@"Contact Us", nil];
-
+    [self setTitle:@"My Events"];
+    contentsList = [NSMutableArray arrayWithObjects:@"Create Event",@"Events to Attend",@"Search Events", nil];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -73,7 +73,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellAccessoryDisclosureIndicator reuseIdentifier:CellIdentifier];
 	}
     
     // Configure the cell...

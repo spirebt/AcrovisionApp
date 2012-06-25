@@ -182,10 +182,12 @@
 
     NSLog(@"the data: %@",jsonData);
     if ([jsonData count]!=0) {
+        [mainAlertLabel setHidden:NO];
+
         //NSArray *userDetails = (NSArray *)[jsonData valueForKey:@"User"]; 
         NSString *errorInfo = (NSString *)[jsonData valueForKey:@"error"];
         NSString *successInfo = (NSString *)[jsonData valueForKey:@"success"];
-    
+        NSLog(@"error %d",[errorInfo intValue]);
         if ([errorInfo intValue] == 1) {
             mainAlertLabel.text = @"Username already exist";
         

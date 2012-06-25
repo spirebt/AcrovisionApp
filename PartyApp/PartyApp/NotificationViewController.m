@@ -1,24 +1,28 @@
 //
-//  AccountViewController.m
+//  NotificationViewController.m
 //  PartyApp
 //
-//  Created by Spire Jankulovski on 6/20/12.
+//  Created by Spire Jankulovski on 6/21/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AccountViewController.h"
-
-@interface AccountViewController ()
+#import "NotificationViewController.h"
+#import "LogInViewController.h"
+#import "AppDelegate.h"
+@interface NotificationViewController ()
 
 @end
 
-@implementation AccountViewController
+@implementation NotificationViewController
+
+@synthesize jsonData;
 @synthesize contentsList;
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.title = NSLocalizedString(@"Notification", @"Notification");
+        self.tabBarItem.image = [UIImage imageNamed:@"first"];
     }
     return self;
 }
@@ -26,26 +30,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setTitle:@"Account"];
-    contentsList = [NSMutableArray arrayWithObjects:@"Personal Info",@"Friends",@"Share this App",@"Contact Us", nil];
+    [self setTitle:@"Notification"];
+    
+    NSArray *firstSection = [NSArray arrayWithObjects:@"New Posts",@"Tags",@"Likes",@"Comments",@"Friend Request", nil];
+    
+    
+    NSArray *secondSection = [NSArray arrayWithObjects:@"Event Invitations",@"Attending to event",nil];
+	
+    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:firstSection, secondSection, nil];
+    [self setContentsList:array];
+    array = nil;
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"eve sme %@",jsonData);
+    
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 #pragma mark - Table view data source
@@ -53,21 +63,29 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    NSInteger sections = [[self contentsList] count];
+    
+    return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [contentsList count];
+    NSArray *sectionContents = [[self contentsList] objectAtIndex:section];
+    NSInteger rows = [sectionContents count];
+    
+    return rows;
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 60;
+    return 20;
 }   
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSArray *sectionContents = [[self contentsList] objectAtIndex:[indexPath section]];
+    NSString *contentForThisRow = [sectionContents objectAtIndex:[indexPath row]];
+
     static NSString *CellIdentifier = @"Cell";
     
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -75,12 +93,11 @@
 	{
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 	}
-    
     // Configure the cell...
-    [[cell textLabel]setText:[contentsList objectAtIndex:[indexPath row]]]; 
+    [[cell textLabel] setText:contentForThisRow];
+
     return cell;
 }
-
 
 /*
 // Override to support conditional editing of the table view.
