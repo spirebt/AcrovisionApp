@@ -14,9 +14,12 @@
     NSMutableArray *userDataJSON;
     UIImagePickerController *imagePickerController;
     NSString *idString;
+    NSString *imageString;
+    NSString *idUser;
     NSString *bioStr;
     NSString *fNameStr;
     NSString *lNameStr;
+    NSString *userString;
     NSString *DoBStr;
     NSString *genderStr;
     NSString *emailStr;
@@ -44,6 +47,9 @@
     UITextField *answerTextField;    
     UITextField *passTextField;
     UITextField *passTextField2;
+    int segControl;
+    NSString *genderString;
+    BOOL sendReceive;
     
 }
 @property (nonatomic, retain) UIImageView *imageView;
@@ -56,5 +62,6 @@
 -(void) displayImageGallery;
 -(IBAction)useCamera;
 -(IBAction)useCameraRoll;
-//-(void)sendData:(NSString *)imageName;
+-(void)sendData;
+- (void)segmentAction:(id)sender;
 @end

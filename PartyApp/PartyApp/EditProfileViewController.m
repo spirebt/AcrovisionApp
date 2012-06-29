@@ -66,6 +66,11 @@
     scrollView.contentSize = CGSizeMake(320, 915);
 	[scrollView scrollRectToVisible:CGRectMake(0, 0, 320, 416) animated:NO];
     
+    NSData *mydata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:imageString]];
+    UIImage *myimage = [[UIImage alloc] initWithData:mydata];
+    
+    NSLog(@"%@",myimage);
+    
     sampleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sampleButton setFrame:CGRectMake(10,10,150,150)];
     [sampleButton setTitle:@"Tap to add image" forState:UIControlStateNormal];
@@ -127,7 +132,7 @@
     NSArray *itemArray = [NSArray arrayWithObjects: @"M", @"F", nil];
     segmentedControl = [[UISegmentedControl alloc] initWithItems:itemArray];
     segmentedControl.frame = CGRectMake(175, 250, 135, 30);
-    segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
+    [segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];    segmentedControl.segmentedControlStyle = UISegmentedControlStylePlain;
     int i;
     if ([genderStr isEqualToString:@"M"]) {
         i=0;
@@ -181,6 +186,14 @@
             forControlEvents:UIControlEventEditingDidEndOnExit];
     [passTextField2 setTextAlignment:UITextAlignmentCenter];
     [scrollView addSubview:passTextField2];
+    
+    UIButton *updateButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [updateButton setFrame:CGRectMake(80,490,150,44)];
+    [updateButton setTitle:@"Update Profile" forState:UIControlStateNormal];
+    [updateButton setBackgroundColor:[UIColor clearColor]];
+    [updateButton addTarget:self action:@selector(sendData) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:updateButton];
+
 }
 - (void) useCamera
 {
@@ -260,13 +273,14 @@
     } 
 }
 -(void)displayImageGallery{
-    NSLog(@"alarm");
+
     UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Choose Image From" message:@"" delegate:self cancelButtonTitle:@"Gallery" otherButtonTitles:@"Camera", nil];
     
     CGAffineTransform myTransform = CGAffineTransformMakeTranslation(0.0, 50.0);
     [myAlertView setTransform:myTransform];
     [myAlertView show];
 }
+
 - (void)requestFinished:(ASIHTTPRequest *)request
 {
     // Use when fetching text data
@@ -275,75 +289,97 @@
     
     //set up here for response!!!
     jsonData = [parser objectWithString:responseString error:nil];
-    bioStr = [NSString stringWithFormat:[jsonData valueForKey:@"Bio"]];
-    fNameStr = [NSString stringWithFormat:[jsonData valueForKey:@"firstN"]];
-    lNameStr = [NSString stringWithFormat:[jsonData valueForKey:@"lastN"]];
-    DoBStr = [NSString stringWithFormat:[jsonData valueForKey:@"DoB"]];
-    genderStr = [NSString stringWithFormat:[jsonData valueForKey:@"Gender"]];
-    emailStr = [NSString stringWithFormat:[jsonData valueForKey:@"Email"]];
-    questStr = [NSString stringWithFormat:[jsonData valueForKey:@"Quest"]];
-    answStr = [NSString stringWithFormat:[jsonData valueForKey:@"Answ"]];
-    passString = [NSString stringWithFormat:[jsonData valueForKey:@"Pass"]];
-    // Use when fetching binary data
-    //NSData *responseData = [request responseData];
-    [self drawView];     
-
+    
+    NSLog(@"So vrakas? %@",jsonData);
+    if (!sendReceive) {
+ 
+        bioStr = [NSString stringWithFormat:[jsonData valueForKey:@"Bio"]];
+        fNameStr = [NSString stringWithFormat:[jsonData valueForKey:@"firstN"]];
+        lNameStr = [NSString stringWithFormat:[jsonData valueForKey:@"lastN"]];
+        DoBStr = [NSString stringWithFormat:[jsonData valueForKey:@"DoB"]];
+        genderStr = [NSString stringWithFormat:[jsonData valueForKey:@"Gender"]];
+        emailStr = [NSString stringWithFormat:[jsonData valueForKey:@"Email"]];
+        questStr = [NSString stringWithFormat:[jsonData valueForKey:@"Quest"]];
+        answStr = [NSString stringWithFormat:[jsonData valueForKey:@"Answ"]];
+        passString = [NSString stringWithFormat:[jsonData valueForKey:@"Pass"]];
+        imageString = [NSString stringWithFormat:[jsonData valueForKey:@"Image"]];
+        userString = [NSString stringWithFormat:[jsonData valueForKey:@"User"]];
+        idUser = [NSString stringWithFormat:[jsonData valueForKey:@"id"]];
+        NSLog(@"Tuka %@",userString);
+        // Use when fetching binary data
+        //NSData *responseData = [request responseData];
+        [self drawView];     
+        
+    }
 }
 - (void)requestFailed:(ASIHTTPRequest *)request
 {
     NSError *error = [request error];
     NSLog(@"%@",error);
 }
--(void)sendData:(NSString *)imageName{
+- (void)segmentAction:(id)sender
+{
+    segmentedControl = (UISegmentedControl *)sender;
+    switch ([sender selectedSegmentIndex])
+    {
+        case 0: 
+        {   
+            segControl = 0;
+            break;
+        }
+        case 1: 
+        {   
+            segControl = 1;
+            break;
+        }
+    }
+    
+    
+}
+-(void)sendData{
     UILabel *warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 490, 280, 30)];
     [warningLabel setHidden:YES];
-
     if ([passTextField.text isEqualToString:passTextField2.text]) {
 
-    NSString *DoBString = [NSString stringWithFormat:@"%@.%@.%@",dayTextField.text,monthTextField.text,yearTextField.text];
-    NSString *incomingStr = @"http://spireapp.lazarevski-zoran.com/index.php?action=saveUser";
-    NSURL *url = [NSURL URLWithString:incomingStr];
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        NSString *DoBString = [NSString stringWithFormat:@"%@.%@.%@",dayTextField.text,monthTextField.text,yearTextField.text];
+        if (segControl == 0) {
+           genderString = @"M";
+
+        }else {
+            genderString = @"F";
+
+        }
+        NSLog(@"User %@",userString);
+        NSString *incomingStr = @"http://spireapp.lazarevski-zoran.com/index.php?action=saveUser";
+        NSURL *url = [NSURL URLWithString:incomingStr];
+        ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+        [request setPostValue:@"1" forKey:@"save_user"];
+        [request setPostValue:nameTextField.text forKey:@"firstN"];
+        [request setPostValue:lNameTextField.text forKey:@"lastN"];
+        [request setPostValue:userString forKey:@"User"];
+        [request setPostValue:passTextField.text forKey:@"Pass"];
+        [request setPostValue:DoBString forKey:@"DoB"];
+        [request setPostValue:genderString forKey:@"Gender"];
+        [request setPostValue:emailTextField.text forKey:@"Email"];
+        [request setPostValue:questionTextField.text forKey:@"Quest"];
+        [request setPostValue:answerTextField.text forKey:@"Answ"];
+        [request setPostValue:@"Token" forKey:@"Token"];
+        [request setPostValue:bioTextView.text forKey:@"Bio"];
+
+        [request setPostValue:idUser forKey:@"id"];
     
-    [request setPostValue:@"1" forKey:@"save_user"];
-    [request setPostValue:nameTextField.text forKey:@"firstN"];
-    [request setPostValue:lNameTextField.text forKey:@"lastN"];
-    //[request setPostValue:pass.text forKey:@"Pass"];
-    [request setPostValue:DoBString forKey:@"DoB"];
-    //[request setPostValue:genderData forKey:@"Gender"];
-    [request setPostValue:emailTextField.text forKey:@"Email"];
-    [request setPostValue:questionTextField.text forKey:@"Quest"];
-    [request setPostValue:answerTextField.text forKey:@"Answ"];
-    [request setPostValue:@"Token" forKey:@"Token"];
-    [request setPostValue:bioTextView.text forKey:@"Bio"];
-    //[request setPostValue:@"No data..." forKey:@"Image"];
-    [request setPostValue:@"27" forKey:@"id"];
-    
-    //[request setFile:@"/Users/spire/Desktop/theeyeofrawsr2raziel.jpg" forKey:@"Image"];
-    [request setDelegate:self];
-    //[request setUploadProgressDelegate:myProgressIndicator];
-    [request startAsynchronous];
+        [request setData:imageData withFileName:@"upload.png" andContentType:@"image/png" forKey:@"Image"];
+        [request setDelegate:self];
+        //[request setUploadProgressDelegate:myProgressIndicator];
+        sendReceive = YES;
+        [request startAsynchronous];
         
-    //NSLog(@"Value: %f",[myProgressIndicator progress]);
+        //NSLog(@"Value: %f",[myProgressIndicator progress]);
         
     }else{
         warningLabel.text = @"Passwords don't match";
         [warningLabel setHidden:NO];
     }
-     /*'save_user' = 1
-     'firstN' = 'First name here'
-     'lastN' = 'Last name'
-     'User' = 'Username here'
-     'Pass' = 'Password here'
-     'DoB' = 'Date of birth here (This format: 23.07.2012),
-     'Gender' = 'M or F'
-     'Email' = 'Email here'
-     'Quest' = 'Question here'
-     'Answ' = 'Answer here'
-     'Token' = 'Token here'
-     'Image' = 'Image here, can be empty'
-     'Bio' = 'Bio here, can be empty'
-     'id' = '0 if you are adding, 27 if you are updating user information'*/
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
